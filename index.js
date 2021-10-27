@@ -1,3 +1,24 @@
+const form = document.querySelector('#form')
+const firstName = document.getElementById('firstName')
+const lastName = document.getElementById('lastName')
+const phoneNumber = document.getElementById('phoneNumber')
+const email = document.getElementById('email')
+const roles = document.getElementById('roles')
+const notes = document.getElementById('notes')
+
+const errorMessage = {
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    email: '',
+    role: '',
+    notes: '',
+    empty: ''
+}
+
+let usersData = []
+
+// Модальное окно 
 const modalWindow = () => {
     const modalLinks = document.querySelectorAll('.usermodal__link')
     const body = document.querySelector('body')
@@ -84,6 +105,7 @@ const modalWindow = () => {
     }
 }
 
+// Аякс запросы
 const ajaxGet = (url, callback) => {
     const request = new XMLHttpRequest()
 
@@ -105,6 +127,7 @@ const ajaxGet = (url, callback) => {
     request.send()
 }
 
+// Аякс запросы
 const ajaxRequest = (url, userData, callback) => {
     const request = new XMLHttpRequest()
 
@@ -119,26 +142,7 @@ const ajaxRequest = (url, userData, callback) => {
     request.send(userData)
 }
 
-const form = document.querySelector('#form')
-const firstName = document.getElementById('firstName')
-const lastName = document.getElementById('lastName')
-const phoneNumber = document.getElementById('phoneNumber')
-const email = document.getElementById('email')
-const roles = document.getElementById('roles')
-const notes = document.getElementById('notes')
-
-const errorMessage = {
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    email: '',
-    role: '',
-    notes: '',
-    empty: ''
-}
-
-let usersData = []
-
+// Проверка формы на валидность
 const validateElement = (element) => {
     const regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     const regUsername = /^(([A-Za-z]+[\-\']?)*([A-Za-z]+)?\s)+([A-Za-z]+[\-\']?)*([A-Za-z]+)?$/
@@ -205,6 +209,7 @@ const validateElement = (element) => {
     }
 }
 
+// Проверка формы на наличие ошибок
 const checkErrors = () => {
     let message = document.querySelector('.message')
 
@@ -237,6 +242,7 @@ const checkErrors = () => {
     }
 } 
 
+// Событие при нажатии отправки формы
 const submit = () => {
     let user = {
         firstName: firstName.value,
@@ -247,16 +253,20 @@ const submit = () => {
         notes: notes.value
     }
 
+    usersData += user
+
     ajaxRequest('https://my-json-server.typicode.com/Antares323/modal-create-user/usersData/1', JSON.stringify(user), (res) => {
         console.log(res)
     })
 }
 
+// Добавление элемента в стоку таблицы
 const addDataTable = (main, secondary, data) => {
     secondary.textContent = data
     main.appendChild(secondary)
 }
 
+// Добавление данных пользователя в таблицу
 const tableUsers = (usersData) => {
     const dataTable = document.querySelector('.dataUser')
     let dataRow = document.createElement('tr')
@@ -269,10 +279,12 @@ const tableUsers = (usersData) => {
     dataTable.appendChild(dataRow)
 }
 
+// Основное прослушивание событий на сайте
 document.addEventListener('DOMContentLoaded', () => {
     "use strict"
     modalWindow()
 
+    // Получение данных с помощь аякс запроса
     ajaxGet('https://my-json-server.typicode.com/Antares323/modal-create-user/usersData', (data) => {
         usersData = data
         
@@ -281,6 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
+    // Отслеживание клика по форме 
     form.addEventListener('submit', (e) => {
         e.preventDefault()
         
