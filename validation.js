@@ -22,7 +22,7 @@ let usersData = []
 document.addEventListener('DOMContentLoaded', () => {
     "use strict";
 
-    ajaxGet('https://my-json-server.typicode.com/IwaLain/waites-modal/users', (data) => {
+    ajaxGet('', (data) => {
         users = data
 
         firstName.value = users[0].firstName
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         modal.classList.remove('visible')
     
-        ajaxPatch('https://my-json-server.typicode.com/IwaLain/waites-modal/users/1', JSON.stringify(user), (res) => {
+        ajaxPatch('', JSON.stringify(user), (res) => {
             showAlert(res)
         })
     }
