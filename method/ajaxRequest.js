@@ -1,4 +1,4 @@
-const ajaxPatch = (url, userData, callback) => {
+const ajaxRequest = (url, userData, callback) => {
     const request = new XMLHttpRequest()
 
     request.open('PATCH', url, true)
@@ -12,4 +12,4 @@ const ajaxPatch = (url, userData, callback) => {
     request.send(userData)
 }
 
-export default ajaxPatch
+export default ajaxRequest
