@@ -47,7 +47,7 @@ const modalWindow = () => {
     }
 
     const modalClose = (modalActive, doUnlock = false) => {
-        if (!unlock) {
+        if (unlock) {
             modalActive.classList.remove('open')
             if (doUnlock) {
                 bodyLock()
@@ -120,6 +120,12 @@ const ajaxRequest = (url, userData, callback) => {
 }
 
 const form = document.querySelector('#form')
+const firstName = document.getElementById('firstName')
+const lastName = document.getElementById('lastName')
+const phoneNumber = document.getElementById('phoneNumber')
+const email = document.getElementById('email')
+const roles = document.getElementById('roles')
+const notes = document.getElementById('notes')
 
 const errorMessage = {
     firstName: '',
@@ -232,30 +238,48 @@ const checkErrors = () => {
 } 
 
 const submit = () => {
-    ajaxGet('my-json-server.typicode.com/Antares323/modal-create-user/usersData', (data) => {
-        usersData = data
-
-        firstName.value = usersData[0].firstName
-        lastName.value = usersData[0].lastName
-        email.value = usersData[0].email
-        phone.value = usersData[0].phone
-    })
-
     let user = {
         firstName: firstName.value,
         lastName: lastName.value,
+        phoneNumber: phoneNumber.value,
         email: email.value,
-        phone: phone.value
+        roles: roles.value,
+        notes: notes.value
     }
 
-    ajaxRequest('my-json-server.typicode.com/Antares323/modal-create-user/usersData/1', JSON.stringify(user), (res) => {
-        showAlert(res)
+    ajaxRequest('https://my-json-server.typicode.com/Antares323/modal-create-user/usersData/1', JSON.stringify(user), (res) => {
+        console.log(res)
     })
+}
+
+const addDataTable = (main, secondary, data) => {
+    secondary.textContent = data
+    main.appendChild(secondary)
+}
+
+const tableUsers = (usersData) => {
+    const dataTable = document.querySelector('.dataUser')
+    let dataRow = document.createElement('tr')
+
+    for (let key in usersData) {
+        let dataItem = document.createElement('td')
+        addDataTable(dataRow, dataItem, usersData[key])
+    } 
+
+    dataTable.appendChild(dataRow)
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     "use strict"
     modalWindow()
+
+    ajaxGet('https://my-json-server.typicode.com/Antares323/modal-create-user/usersData', (data) => {
+        usersData = data
+        
+        for (let key of usersData) {
+            tableUsers(key)
+        }
+    })
 
     form.addEventListener('submit', (e) => {
         e.preventDefault()
