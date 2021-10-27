@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     const regUsername = /^(([A-Za-z]+[\-\']?)*([A-Za-z]+)?\s)+([A-Za-z]+[\-\']?)*([A-Za-z]+)?$/
-    const regPhone = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/
+    const regPhone = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){8,14}(\s*)?$/
 
     const form = document.querySelector('#form')
 
@@ -15,8 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         role: '',
         notes: '',
         empty: ''
-    };
-    let isValidation = false
+    }
     let message = document.querySelector('.message')
     
 
@@ -37,9 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 break
             
             case 'lastName':
-                if (regUsername.test(element.value) && element.value !== '') {
+                if (regUsername.test(element.value)) {
                     errorMessage.lastName = 'Plese enter last name correct!'
-                } else if (element.value.length < 2 && element.value !== '') {
+                } else if (element.value.length < 2) {
                     errorMessage.lastName = 'Last name not less than 2 simvols!'
                 } else {
                     errorMessage.lastName = ''
@@ -49,6 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'phoneNumber':
                 if (!regPhone.test(element.value) && element.value !== '') {
                     errorMessage.phoneNumber = 'Plese enter phone number correct!'
+                } else if (element.value.length < 8) {
+                    errorMessage.lastName = 'Phone number not less than 8 simvols!'
                 } else {
                     errorMessage.phoneNumber = ''
                 }
@@ -57,13 +58,15 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'email':
                 if (!regEmail.test(element.value) && element.value !== '') {
                     errorMessage.email ='Plese enter email correct!'
+                } else if (element.value.length < 8) {
+                    errorMessage.lastName = 'Email not less than 8 simvols!'
                 } else {
                     errorMessage.email = ''
                 }
                 break
 
             case 'role':
-                if (element.value === '') {
+                if (element.value == 'Chouse your role') {
                     errorMessage.role = 'Plese chouse your role!'
                 } else {
                     errorMessage.role = ''
@@ -92,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (element.tagName !== 'BUTTON') {
                 if (element.value === '') {
                     errorMessage.empty = 'Please type empty fields!'
-                    isValidation = false
                 } else {
                     errorMessage.empty = ''
                 }
@@ -100,28 +102,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // for (let element of form.elements) {
-        //     if (element.tagName !== 'BUTTON') {
-        //         element.addEventListener('blur', () => {
-                    
-        //         })
-        //     }
-        // }
-
+        let countError = 0
         for (let errors in errorMessage) {
             if (errorMessage[errors] !== '') { 
-                message.textContent += errorMessage[errors]
-                isValidation = false
-            } else {
-                isValidation = true
-            }
+                message.textContent += errorMessage[errors] + " "
+                countError++
+                console.log(errorMessage[errors])
+                console.log(countError)
+            } 
         }
         setTimeout(() => {
             message.textContent = ''
         }, 5000)
 
-        console.log(isValidation)
-        if (isValidation) {
+        if (countError == 0) {
             submit()
         }
     })
