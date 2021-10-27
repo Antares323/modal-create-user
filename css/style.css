@@ -90,6 +90,14 @@
     bottom: 20px;
     right: 20px;
     padding: 10px;
-    background-color: rgba(255, 0, 0, 0.733);
     transition: all .5s ease 0s;
+}
+
+.message .error {
+    background-color: rgba(255, 0, 0, 0.7);
+}
+
+.message .success {
+    
+    background-color: rgba(0, 255, 0, 0.7);
 }

@@ -1,26 +1,49 @@
+import ajaxGet from './method/ajaxGet'
+import ajaxRequest from './method/ajaxRequest'
+
+const regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const regUsername = /^(([A-Za-z]+[\-\']?)*([A-Za-z]+)?\s)+([A-Za-z]+[\-\']?)*([A-Za-z]+)?$/
+const regPhone = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){8,14}(\s*)?$/
+
+const form = document.querySelector('#form')
+
+const errorMessage = {
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    email: '',
+    role: '',
+    notes: '',
+    empty: ''
+}
+let message = document.querySelector('.message')
+let usersData = []
+
 document.addEventListener('DOMContentLoaded', () => {
     "use strict";
 
-    const regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    const regUsername = /^(([A-Za-z]+[\-\']?)*([A-Za-z]+)?\s)+([A-Za-z]+[\-\']?)*([A-Za-z]+)?$/
-    const regPhone = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){8,14}(\s*)?$/
+    ajaxGet('https://my-json-server.typicode.com/IwaLain/waites-modal/users', (data) => {
+        users = data
 
-    const form = document.querySelector('#form')
-
-    const errorMessage = {
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
-        email: '',
-        role: '',
-        notes: '',
-        empty: ''
-    }
-    let message = document.querySelector('.message')
-    
+        firstName.value = users[0].firstName
+        lastName.value = users[0].lastName
+        email.value = users[0].email
+        phone.value = users[0].phone
+    })
 
     const submit = () => {
-        alert('Successful')
+        let user = {
+            firstName: firstName.value,
+            lastName: lastName.value,
+            email: email.value,
+            phone: phone.value
+        }
+    
+        modal.classList.remove('visible')
+    
+        ajaxPatch('https://my-json-server.typicode.com/IwaLain/waites-modal/users/1', JSON.stringify(user), (res) => {
+            showAlert(res)
+        })
     }
 
     const validateElement = (element) => {
@@ -36,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 break
             
             case 'lastName':
-                if (regUsername.test(element.value)) {
+                if (regUsername.test(element.value) && element.value !== '') {
                     errorMessage.lastName = 'Plese enter last name correct!'
                 } else if (element.value.length < 2) {
                     errorMessage.lastName = 'Last name not less than 2 simvols!'
@@ -65,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 break
 
-            case 'role':
+            case 'roles':
                 if (element.value == 'Chouse your role') {
                     errorMessage.role = 'Plese chouse your role!'
                 } else {
@@ -86,8 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    
-
     form.addEventListener('submit', (e) => {
         e.preventDefault()
         
@@ -107,8 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (errorMessage[errors] !== '') { 
                 message.textContent += errorMessage[errors] + " "
                 countError++
-                console.log(errorMessage[errors])
-                console.log(countError)
             } 
         }
         setTimeout(() => {
@@ -117,6 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (countError == 0) {
             submit()
+            form.reset()
         }
     })
 })  

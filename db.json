@@ -1,0 +1,40 @@
+{
+    "usersData": [
+        {
+            "id": 1,
+            "firstName": "Alex",
+            "lastName": "Mayba",
+            "phoneNumber": "0942232567",
+            "email": "qwerty@gmail.com",
+            "roles": "Admin",
+            "notes": "Just simple admin on this site"
+        },
+        {
+            "id": 2,
+            "firstName": "Max",
+            "lastName": "Saplex",
+            "phoneNumber": "0992232367",
+            "email": "qwerty@gmail.com",
+            "roles": "Regular",
+            "notes": "Just simple Regular on this site"
+        },
+        {
+            "id": 3,
+            "firstName": "Vitalya",
+            "lastName": "Pronin",
+            "phoneNumber": "0502232567",
+            "email": "asdf@gmail.com",
+            "roles": "Admin",
+            "notes": "Just simple admin on this site"
+        },
+        {
+            "id": 4,
+            "firstName": "Ruslan",
+            "lastName": "Kravec",
+            "phoneNumber": "0992123567",
+            "email": "qwerty@gmail.com",
+            "roles": "Regular",
+            "notes": "Just simple Regular on this site"
+        }
+    ]
+}
