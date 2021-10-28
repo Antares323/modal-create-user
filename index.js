@@ -6,7 +6,7 @@ const email = document.getElementById('email')
 const roles = document.getElementById('roles')
 const notes = document.getElementById('notes')
 
-const URL = 'https://my-json-server.typicode.com/Antares323/modal-create-user/usersData'
+const URL = 'https://my-json-server.typicode.com/Antares323/modal-create-user/usersData/'
 
 const errorMessage = {
     firstName: '',
@@ -54,8 +54,8 @@ const modalWindow = () => {
 
     const modalOpen = (curentModal) => {
         if (curentModal && unlock) {
-            const modalActive = document.querySelector('.usermodal')
-            if (curentModal) {
+            const modalActive = document.querySelector('.usermodal.open')
+            if (modalActive) {
                 modalClose(modalActive, false)
             } else {
                 bodyLock()
@@ -63,7 +63,7 @@ const modalWindow = () => {
             curentModal.classList.add('open')
             curentModal.addEventListener('click', (e) => {
                 if (!e.target.closest('.usermodal__content')) {
-                    modalClose(e.target.closest('modal'))
+                    modalClose(e.target.closest('.modal'))
                 }
             })
         }
@@ -73,20 +73,12 @@ const modalWindow = () => {
         if (unlock) {
             modalActive.classList.remove('open')
             if (doUnlock) {
-                bodyLock()
+                bodyUnLock()
             }
         }
     }
 
     const bodyLock = () => {
-        const lockPaddingValue = window.innerWidth - document.querySelector('.wrapper').offsetWidth + 'px'
-        if (lockPaddingValue > 0) {
-            for (let padLock of lockPadding) {
-                const elem = padLock
-                elem.getElementsByClassName.paddingRight = lockPaddingValue
-            }
-        }
-        body.style.paddingRight = lockPaddingValue
         body.classList.add('lock')
 
         unlock = false
@@ -97,11 +89,7 @@ const modalWindow = () => {
 
     const bodyUnLock = () => {
         setTimeout(() => {
-            for (let padLock of lockPadding) {
-                const elem = padLock
-                elem.style.paddingRight = '0px'
-            }
-            body.style.paddingRight = '0px'
+            
             body.classList.remove('lock')
         }, timeout)
     }
@@ -188,8 +176,8 @@ const validateElement = (element) => {
             break
 
         case 'notes':
-            if (element.value.length <= 20) {
-                errorMessage.notes = 'Plese enter notes more than 20 simvols!'
+            if (element.value.length <= 5) {
+                errorMessage.notes = 'Plese enter notes more than 5 simvols!'
             } else {
                 errorMessage.notes = ''
             }
@@ -254,7 +242,7 @@ const submit = () => {
         notes: notes.value
     }
 
-    sendRequest('PATCH', URL + '/1', JSON.stringify(user))
+    sendRequest('PATCH', URL + '5', JSON.stringify(user))
     .then(data => {
         console.log(data)
         tableUsers(data)
@@ -271,6 +259,7 @@ const addDataTable = (main, secondary, data) => {
 // Добавление данных пользователя в таблицу
 const tableUsers = (usersData) => {
     const dataTable = document.querySelector('.dataUser')
+    
     let dataRow = document.createElement('tr')
 
     for (let key in usersData) {

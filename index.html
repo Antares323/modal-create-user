@@ -43,78 +43,91 @@
                             id="form">
                             <div class="usermodal__form">
                                 <div class="form__content">
-                                    <label 
-                                        for="firstName" 
-                                        class="form-label">
-                                        First name:
-                                    </label>
-                                    <input 
-                                        id="firstName" 
-                                        class="form__input form-control" 
-                                        type="text" 
-                                        placeholder="Your first name ..." 
-                                    />
+                                    <div class="form__item">
+                                        <label 
+                                            for="firstName" 
+                                            class="form-label">
+                                            First name:
+                                        </label>
+                                        <input 
+                                            id="firstName" 
+                                            class="form__input form-control" 
+                                            type="text" 
+                                            placeholder="Your first name ..." 
+                                        />
+                                    </div>
+                                    <div class="form__item">
+                                        <label 
+                                            for="lastName" 
+                                            class="form-label">
+                                            Last Name:
+                                        </label>
+                                        <input 
+                                            id="lastName" 
+                                            class="form__input form-control" 
+                                            type="text" 
+                                            placeholder="Your last name ..." 
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div class="form__content">
+                                    <div class="form__item">
+                                        <label 
+                                            for="phoneNumber" 
+                                            class="form-label">
+                                            Phone Number:
+                                        </label>
+                                        <input 
+                                            id="phoneNumber" 
+                                            class="usermodal__input form-control" 
+                                            type="text" 
+                                            placeholder="Your phone number ..." 
+                                        />
+                                    </div>
+                                    <div class="form__item">
+                                        <label 
+                                            for="email" 
+                                            class="form-label">
+                                            Email:
+                                        </label>
+                                        <input 
+                                            id="email" 
+                                            class="usermodal__input form-control" 
+                                            type="email" 
+                                            placeholder="Your email ..." 
+                                        />
+                                    </div>
                                 </div>
                                 <div class="form__content">
-                                    <label 
-                                        for="lastName" 
-                                        class="form-label">
-                                        Last Name:
-                                    </label>
-                                    <input 
-                                        id="lastName" 
-                                        class="form__input form-control" 
-                                        type="text" 
-                                        placeholder="Your last name ..." 
-                                    />
+                                    <div class="form__item">
+                                        <label 
+                                            for="roles" 
+                                            class="form-label">
+                                            Role:
+                                        </label>
+                                        <select id="roles" class="form-select">
+                                            <option selected>Chouse your role</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="Regular">Regular</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form__content">
-                                    <label 
-                                        for="phoneNumber" 
-                                        class="form-label">
-                                        Phone Number:
-                                    </label>
-                                    <input 
-                                        id="phoneNumber" 
-                                        class="usermodal__input form-control" 
-                                        type="text" 
-                                        placeholder="Your phone number ..." 
-                                    />
+                                    <div class="form__item">
+                                        <label for="notes">Note yourself:</label>
+                                        <textarea 
+                                            id="notes" 
+                                            class="form-control" 
+                                            placeholder="Note yourself"></textarea>
+                                    </div>
                                 </div>
-                                <div class="form__content">
-                                    <label 
-                                        for="email" 
-                                        class="form-label">
-                                        Email:
-                                    </label>
-                                    <input 
-                                        id="email" 
-                                        class="usermodal__input form-control" 
-                                        type="email" 
-                                        placeholder="Your email ..." 
-                                    />
-                                </div>
-                                <div class="form__content">
-                                    <label 
-                                        for="roles" 
-                                        class="form-label">
-                                        Role:
-                                    </label>
-                                    <select id="roles" class="form-select">
-                                        <option selected>Chouse your role</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="Regular">Regular</option>
-                                    </select>
-                                </div>
-                                <div class="form__content">
-                                    <label for="notes">Note yourself:</label>
-                                    <textarea 
-                                        id="notes" 
-                                        class="form-control" 
-                                        placeholder="Note yourself"
-                                        style="height: 100px"></textarea>
-                                </div>
-                                <div class="col-12 usermodal__btn d-flex justify-content-end">
+                                <div class="col-12 usermodal__btn d-flex justify-content-between">
+                                    <a
+                                        id="usermodalClose" 
+                                        class="btn btn-primary close__modal">
+                                        Close
+                                    </a>
                                     <button 
                                         type="submit" 
                                         class="btn btn-primary">
@@ -128,20 +141,21 @@
             </div>
         </div>
         <div class="message message__hide"></div>
-        <div class="row">
+        <div class="container__table">
             <table class="table table-dark table-striped">
                 <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">FirstName</th>
-                    <th scope="col">LastName</th>
-                    <th scope="col">PhoneNumber</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Note</th>
-                  </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">FirstName</th>
+                        <th scope="col">LastName</th>
+                        <th scope="col">PhoneNumber</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Note</th>
+                    </tr>
                 </thead>
                 <tbody class="dataUser">
+            
                 </tbody>
             </table>
         </div>

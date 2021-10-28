@@ -82,7 +82,24 @@
 }
 
 .form__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
     margin-top: 10px;
+}
+
+.form__item {
+    margin: 0 10px;
+}
+
+.form__item .form-label {
+    margin-bottom: 0;
+}
+
+.form__item textarea {
+    width: 300px;
+    height: 100px;
 }
 
 .message {
@@ -99,4 +116,46 @@
 
 .success {  
     background-color: rgba(0, 255, 0, 0.7);
+}
+
+.container__table {
+    overflow-x: hidden;
+}
+
+.container__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table {
+    white-space: nowrap;
+}
+
+@media (max-width: 800px) {
+    .table {
+        display: block;
+        width: 100%;
+    }
+
+    .table thead,
+    .table tbody,
+    .table th {
+        display: block;
+    }
+
+    .table thead {
+        float: left;
+    }
+
+    .table tbody {
+        overflow-x: auto;
+    }
+
+    .table tbody tr {
+        display: table-cell;
+    }
+
+    .table td {
+        display: block;
+    }
 }
