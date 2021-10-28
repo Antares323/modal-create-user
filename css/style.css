@@ -93,7 +93,7 @@
     transition: all .5s ease 0s;
 }
 
-.message .error {
+.error {
     background-color: rgba(255, 0, 0, 0.7);
 }
 

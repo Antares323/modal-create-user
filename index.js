@@ -114,7 +114,6 @@ const sendRequest = (method, requestURL, userData = null) => {
 
         xhr.open(method, requestURL)
         xhr.responseType = 'json'
-        xhr.setRequestHeader('Accept', 'application/json')
         xhr.setRequestHeader('Content-Type', 'application/json')
 
         xhr.onload = () => {
@@ -245,12 +244,14 @@ const checkErrors = () => {
     for (let errors in errorMessage) {
         if (errorMessage[errors] !== '') { 
             message.textContent += errorMessage[errors] + " "
+            message.classList.add('error')
             countError++
         } 
     }
     
     setTimeout(() => {
         message.textContent = ''
+        message.classList.remove('error')
     }, 5000)
 
     if (countError == 0) {
