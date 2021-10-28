@@ -134,6 +134,10 @@
     white-space: nowrap;
 }
 
+.table img {
+   cursor: pointer;
+}
+
 @media (max-width: 800px) {
     .table {
         display: block;

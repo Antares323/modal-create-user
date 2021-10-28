@@ -1,3 +1,7 @@
+import { requestGet } from "./ajax/requestGet.js"
+import { requestPost } from "./ajax/requestPost.js"
+import { modalWindow } from "./js/modal.js"
+
 const form = document.querySelector('#form')
 const firstName = document.getElementById('firstName')
 const lastName = document.getElementById('lastName')
@@ -20,120 +24,6 @@ const errorMessage = {
 
 let usersData = []
 let id = 1
-
-// Модальное окно 
-const modalWindow = () => {
-    const modalLinks = document.querySelectorAll('.usermodal__link')
-    const body = document.querySelector('body')
-
-    let unlock = true
-    const timeout = 800
-
-    if (modalLinks.length > 0) {
-        for (let modal of modalLinks) {
-            const modalLink = modal
-            modalLink.addEventListener('click', (e) => {
-                const modalName = modal.getAttribute('href').replace('#', '')
-                const curentModal = document.getElementById(modalName)
-                modalOpen(curentModal)
-                e.preventDefault()
-            })
-        }
-    }
-
-    const modalCloseIcon = document.querySelectorAll('.close__modal')
-    if (modalCloseIcon.length > 0) {
-        for (let close of modalCloseIcon) {
-            const elem = close
-            elem.addEventListener('click', (e) => {
-                modalClose(elem.closest('.usermodal'))
-                e.preventDefault()
-            })
-        }
-    }
-
-    const modalOpen = (curentModal) => {
-        if (curentModal && unlock) {
-            const modalActive = document.querySelector('.usermodal.open')
-            if (modalActive) {
-                modalClose(modalActive, false)
-            } else {
-                bodyLock()
-            }
-            curentModal.classList.add('open')
-            curentModal.addEventListener('click', (e) => {
-                if (!e.target.closest('.usermodal__content')) {
-                    modalClose(e.target.closest('.usermodal'))
-                } 
-            })
-        }
-    }
-
-    const modalClose = (modalActive, doUnlock = false) => {
-        if (unlock) {
-            modalActive.classList.remove('open')
-            if (doUnlock) {
-                bodyUnLock()
-            }
-        }
-    }
-
-    const bodyLock = () => {
-        body.classList.add('lock')
-
-        unlock = false
-        setTimeout(() => {
-            unlock = true
-        }, timeout)
-    }
-
-    const bodyUnLock = () => {
-        setTimeout(() => {
-            body.classList.remove('lock')
-        }, timeout)
-    }
-}
-
-// Аякс запросы
-const requestGet = (url, callback) => {
-    const xhr = new XMLHttpRequest()
-
-    xhr.open('GET', url, true)
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            try {
-                var data = JSON.parse(xhr.responseText)
-            }
-            catch (err) {
-                console.log('err:' + err.message)
-                return
-            }
-
-            callback(data)
-        }
-    }
-
-    xhr.send()
-}
-const requestPost = (url, data, callback) => {
-    const xhr = new XMLHttpRequest()
-
-    xhr.open('POST', url, true)
-    xhr.setRequestHeader("Accept", "application/json")
-    xhr.setRequestHeader("Content-Type", "application/json")
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                callback('Success')
-            }
-            else {
-                callback('Error')
-            }
-        }
-    }
-
-    xhr.send(JSON.stringify(data))
-}
 
 // Проверка формы на валидность
 const validateElement = (element) => {
@@ -258,9 +148,16 @@ const submit = () => {
         notes: notes.value
     }
 
+    
+
     requestPost(url, user, () => {
         console.log(user)
-        
+        if (usersData.includes[user.id]) {
+            usersData[user.id] = user
+        } else {
+            usersData.push(user)
+        }
+        usersData.push(user)
         tableUsers(user)
     })
 }
@@ -271,17 +168,51 @@ const addDataTable = (main, secondary, data) => {
     main.appendChild(secondary)
 }
 
+const addEdit = (id, dataItem) => {
+    const imgUrl = './img/edit-icon.png'
+    const imgItem = document.createElement('img')
+    const imgLink = document.createElement('a')
+    imgLink.href = '#modal'
+    imgLink.classList.add('usermodal__link')
+    imgItem.src = imgUrl
+    imgItem.alt = 'edit'
+
+    imgLink.appendChild(imgItem)
+    dataItem.appendChild(imgLink)
+
+    dataItem.addEventListener('click', (e) => {
+        e.preventDefault()
+
+        let localData = usersData[id-1]
+        console.log(localData)
+
+        modalWindow(localData)
+
+        
+        firstName.value = localData.firstName
+        lastName.value = localData.lastName
+        phoneNumber.value = localData.phoneNumber
+        email.value = localData.email
+        roles.value = localData.roles
+        notes.value = localData.notes
+    })
+}
+
+
+
 // Добавление данных пользователя в таблицу
 const tableUsers = (userData) => {
     const dataTable = document.querySelector('.dataUser')
-    
     let dataRow = document.createElement('tr')
     id++
+
     for (let key in userData) {
         let dataItem = document.createElement('td')
         addDataTable(dataRow, dataItem, userData[key])
     } 
-
+    
+    addEdit(userData.id, dataRow)
+    
     dataTable.appendChild(dataRow)
 }
 
