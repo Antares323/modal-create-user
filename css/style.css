@@ -73,10 +73,6 @@
     max-width: 600px;
 }
 
-.usermodal__btn {
-    margin-top: 10px;
-}
-
 .usermodal__link {
     margin-top: 20px;
 }
@@ -84,13 +80,20 @@
 .form__content {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: wrap;
     margin-top: 10px;
 }
 
 .form__item {
-    margin: 0 10px;
+    width: 49%;
+    min-width: 200px;
+}
+
+.form__footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
 .form__item .form-label {
@@ -157,5 +160,15 @@
 
     .table td {
         display: block;
+    }
+}
+
+@media (max-width: 500px) {
+    .form__item {
+        width: 100%;
+    }
+
+    .form__item textarea {
+        width: 100%;
     }
 }

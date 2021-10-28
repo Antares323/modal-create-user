@@ -6,7 +6,7 @@ const email = document.getElementById('email')
 const roles = document.getElementById('roles')
 const notes = document.getElementById('notes')
 
-const URL = 'https://my-json-server.typicode.com/Antares323/modal-create-user/usersData/'
+const url = 'db.json'
 
 const errorMessage = {
     firstName: '',
@@ -19,6 +19,7 @@ const errorMessage = {
 }
 
 let usersData = []
+let id = 1
 
 // Модальное окно 
 const modalWindow = () => {
@@ -94,28 +95,44 @@ const modalWindow = () => {
 }
 
 // Аякс запросы
-const sendRequest = (method, requestURL, userData = null) => {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest()
+const requestGet = (url, callback) => {
+    const xhr = new XMLHttpRequest()
 
-        xhr.open(method, requestURL, true)
-        xhr.responseType = 'json'
-        xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.open('GET', url, true)
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            try {
+                var data = JSON.parse(xhr.responseText)
+            }
+            catch (err) {
+                console.log('err:' + err.message)
+                return
+            }
 
-        xhr.onload = () => {
-            if (xhr.status >= 400) {
-                reject(xhr.response)
-            } else {
-                resolve(xhr.response)
+            callback(data)
+        }
+    }
+
+    xhr.send()
+}
+const requestPost = (url, data, callback) => {
+    const xhr = new XMLHttpRequest()
+
+    xhr.open('POST', url, true)
+    xhr.setRequestHeader("Accept", "application/json")
+    xhr.setRequestHeader("Content-Type", "application/json")
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                callback('Success')
+            }
+            else {
+                callback('Error')
             }
         }
+    }
 
-        xhr.onerror = () => {
-            reject(xhr.response)
-        }
-        
-        xhr.send(userData)
-    })
+    xhr.send(JSON.stringify(data))
 }
 
 // Проверка формы на валидность
@@ -232,6 +249,7 @@ const checkErrors = () => {
 // Событие при нажатии отправки формы
 const submit = () => {
     let user = {
+        id: id,
         firstName: firstName.value,
         lastName: lastName.value,
         phoneNumber: phoneNumber.value,
@@ -240,12 +258,11 @@ const submit = () => {
         notes: notes.value
     }
 
-    sendRequest('PATCH', URL + '5', JSON.stringify(user))
-    .then(data => {
-        console.log(data)
-        tableUsers(data)
+    requestPost(url, user, () => {
+        console.log(user)
+        
+        tableUsers(user)
     })
-    .catch(err => console.log(err))
 }
 
 // Добавление элемента в стоку таблицы
@@ -255,14 +272,14 @@ const addDataTable = (main, secondary, data) => {
 }
 
 // Добавление данных пользователя в таблицу
-const tableUsers = (usersData) => {
+const tableUsers = (userData) => {
     const dataTable = document.querySelector('.dataUser')
     
     let dataRow = document.createElement('tr')
-
-    for (let key in usersData) {
+    id++
+    for (let key in userData) {
         let dataItem = document.createElement('td')
-        addDataTable(dataRow, dataItem, usersData[key])
+        addDataTable(dataRow, dataItem, userData[key])
     } 
 
     dataTable.appendChild(dataRow)
@@ -274,15 +291,13 @@ document.addEventListener('DOMContentLoaded', () => {
     modalWindow()
 
     // Получение данных с помощь аякс запроса
-    sendRequest('GET', URL)
-    .then(data => {
-        usersData = data
+    requestGet('db.json', (data) => {
+        usersData = data.usersData
 
-        for (let key of usersData) {
-            tableUsers(key)
+        for (let key in usersData) {
+            tableUsers(usersData[key])
         }
     })
-    .catch(err => console.log(err))
 
     // Отслеживание клика по форме 
     form.addEventListener('submit', (e) => {
