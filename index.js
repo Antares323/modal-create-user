@@ -112,7 +112,7 @@ const sendRequest = (method, requestURL, userData = null) => {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest()
 
-        xhr.open(method, requestURL)
+        xhr.open(method, requestURL, true)
         xhr.responseType = 'json'
         xhr.setRequestHeader('Content-Type', 'application/json')
 
@@ -128,35 +128,9 @@ const sendRequest = (method, requestURL, userData = null) => {
             reject(xhr.response)
         }
         
-        xhr.send(JSON.stringify(userData))
+        xhr.send(userData)
     })
 }
-
-// Аякс запросы
-// const getRequest = (method, requestURL, userData = null) => {
-//     return new Promise((resolve, reject) => {
-//         const xhr = new XMLHttpRequest()
-
-//         xhr.open(method, requestURL)
-
-//         xhr.responseType = 'json'
-//         xhr.setRequestHeader('Content-Type', 'aplication/json')
-
-//         xhr.onload = () => {
-//             if (xhr.status >= 400) {
-//                 reject(xhr.response)
-//             } else {
-//                 resolve(xhr.response)
-//             }
-//         }
-
-//         xhr.onerror = () => {
-//             reject(xhr.response)
-//         }
-
-//         xhr.send(JSON.stringify(userData))
-//     })
-// }
 
 // Проверка формы на валидность
 const validateElement = (element) => {
@@ -280,9 +254,10 @@ const submit = () => {
         notes: notes.value
     }
 
-    sendRequest('PATCH', URL, user)
+    sendRequest('PATCH', URL + '/1', JSON.stringify(user))
     .then(data => {
         console.log(data)
+        tableUsers(data)
     })
     .catch(err => console.log(err))
 }
