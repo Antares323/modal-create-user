@@ -24,7 +24,6 @@ let usersData = []
 const modalWindow = () => {
     const modalLinks = document.querySelectorAll('.usermodal__link')
     const body = document.querySelector('body')
-    const lockPadding = document.querySelectorAll('.lock')
 
     let unlock = true
     const timeout = 800
@@ -63,8 +62,8 @@ const modalWindow = () => {
             curentModal.classList.add('open')
             curentModal.addEventListener('click', (e) => {
                 if (!e.target.closest('.usermodal__content')) {
-                    modalClose(e.target.closest('.modal'))
-                }
+                    modalClose(e.target.closest('.usermodal'))
+                } 
             })
         }
     }
@@ -89,7 +88,6 @@ const modalWindow = () => {
 
     const bodyUnLock = () => {
         setTimeout(() => {
-            
             body.classList.remove('lock')
         }, timeout)
     }
