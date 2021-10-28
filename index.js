@@ -256,6 +256,15 @@ const checkErrors = () => {
 
     if (countError == 0) {
         submit()
+
+        message.textContent = 'Successful create new user!'
+        message.classList.add('success')
+
+        setTimeout(() => {
+            message.textContent = ''
+            message.classList.remove('success')
+        }, 5000)
+
         form.reset()
     }
 } 
