@@ -35,6 +35,15 @@
             "email": "qwerty@gmail.com",
             "roles": "Regular",
             "notes": "Just simple Regular on this site"
+        },
+        {
+            "id": 5,
+            "firstName": "Oleg",
+            "lastName": "Grova",
+            "phoneNumber": "0922121167",
+            "email": "qwewqey@gmail.com",
+            "roles": "Regular",
+            "notes": "Just simple Regular on this site"
         }
     ]
 }

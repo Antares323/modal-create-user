@@ -6,6 +6,8 @@ const email = document.getElementById('email')
 const roles = document.getElementById('roles')
 const notes = document.getElementById('notes')
 
+const URL = 'https://my-json-server.typicode.com/Antares323/modal-create-user/usersData'
+
 const errorMessage = {
     firstName: '',
     lastName: '',
@@ -106,41 +108,56 @@ const modalWindow = () => {
 }
 
 // Аякс запросы
-const ajaxGet = (url, callback) => {
-    const request = new XMLHttpRequest()
+const sendRequest = (method, requestURL, userData = null) => {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
 
-    request.open('GET', url, true)
-    request.onreadystatechange = () => {
-        if (request.readyState == 4 && request.status == 200) {
-            try {
-                var userData = JSON.parse(request.responseText)
-            }
-            catch (e) {
-                console.log('error: ' + e.message)
-                return
-            }
+        xhr.open(method, requestURL)
+        xhr.responseType = 'json'
+        xhr.setRequestHeader('Accept', 'application/json')
+        xhr.setRequestHeader('Content-Type', 'application/json')
 
-            callback(userData)
+        xhr.onload = () => {
+            if (xhr.status >= 400) {
+                reject(xhr.response)
+            } else {
+                resolve(xhr.response)
+            }
         }
-    }
 
-    request.send()
+        xhr.onerror = () => {
+            reject(xhr.response)
+        }
+        
+        xhr.send(JSON.stringify(userData))
+    })
 }
 
 // Аякс запросы
-const ajaxRequest = (url, userData, callback) => {
-    const request = new XMLHttpRequest()
+// const getRequest = (method, requestURL, userData = null) => {
+//     return new Promise((resolve, reject) => {
+//         const xhr = new XMLHttpRequest()
 
-    request.open('PATCH', url, true)
-    request.setRequestHeader("Accept", "application/json")
-    request.setRequestHeader("Content-Type", "application/json")
-    
-    request.onreadystatechange = () => {
-        if (request.readyState === 4) request.status === 200 ? callback('Success') : callback('Error')
-    }
-    
-    request.send(userData)
-}
+//         xhr.open(method, requestURL)
+
+//         xhr.responseType = 'json'
+//         xhr.setRequestHeader('Content-Type', 'aplication/json')
+
+//         xhr.onload = () => {
+//             if (xhr.status >= 400) {
+//                 reject(xhr.response)
+//             } else {
+//                 resolve(xhr.response)
+//             }
+//         }
+
+//         xhr.onerror = () => {
+//             reject(xhr.response)
+//         }
+
+//         xhr.send(JSON.stringify(userData))
+//     })
+// }
 
 // Проверка формы на валидность
 const validateElement = (element) => {
@@ -253,11 +270,11 @@ const submit = () => {
         notes: notes.value
     }
 
-    usersData += user
-
-    ajaxRequest('https://my-json-server.typicode.com/Antares323/modal-create-user/usersData/1', JSON.stringify(user), (res) => {
-        console.log(res)
+    sendRequest('PATCH', URL, user)
+    .then(data => {
+        console.log(data)
     })
+    .catch(err => console.log(err))
 }
 
 // Добавление элемента в стоку таблицы
@@ -285,13 +302,15 @@ document.addEventListener('DOMContentLoaded', () => {
     modalWindow()
 
     // Получение данных с помощь аякс запроса
-    ajaxGet('https://my-json-server.typicode.com/Antares323/modal-create-user/usersData', (data) => {
+    sendRequest('GET', URL)
+    .then(data => {
         usersData = data
-        
+
         for (let key of usersData) {
             tableUsers(key)
         }
     })
+    .catch(err => console.log(err))
 
     // Отслеживание клика по форме 
     form.addEventListener('submit', (e) => {
