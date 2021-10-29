@@ -1,4 +1,4 @@
-export const modalWindow = (form) => {
+export const modalWindow = () => {
     const modalLinks = document.querySelectorAll('.usermodal__link')
     const body = document.querySelector('body')
 

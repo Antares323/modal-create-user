@@ -2,6 +2,7 @@ import { requestGet } from "./ajax/requestGet.js"
 import { requestPost } from "./ajax/requestPost.js"
 import { modalWindow } from "./js/modal.js"
 
+// Получаем элементы формы
 const form = document.querySelector('#form')
 const firstName = document.getElementById('firstName')
 const lastName = document.getElementById('lastName')
@@ -140,6 +141,7 @@ const checkErrors = () => {
 const submit = () => {
     let user = {
         id: id,
+        img: './img/avatar.png',
         firstName: firstName.value,
         lastName: lastName.value,
         phoneNumber: phoneNumber.value,
@@ -148,16 +150,15 @@ const submit = () => {
         notes: notes.value
     }
 
-    
-
     requestPost(url, user, () => {
         console.log(user)
-        if (usersData.includes[user.id]) {
+        if (usersData.includes[id]) {
+            console.log('repeat')
             usersData[user.id] = user
         } else {
+            console.log('norepeat')
             usersData.push(user)
         }
-        usersData.push(user)
         tableUsers(user)
     })
 }
@@ -168,27 +169,20 @@ const addDataTable = (main, secondary, data) => {
     main.appendChild(secondary)
 }
 
+// Добавляем слушатель на Edit
 const addEdit = (id, dataItem) => {
-    const imgUrl = './img/edit-icon.png'
-    const imgItem = document.createElement('img')
-    const imgLink = document.createElement('a')
+    let imgLink = document.createElement('a')
     imgLink.href = '#modal'
     imgLink.classList.add('usermodal__link')
-    imgItem.src = imgUrl
-    imgItem.alt = 'edit'
-
-    imgLink.appendChild(imgItem)
+    imgLink.textContent = 'Edit'
     dataItem.appendChild(imgLink)
 
     dataItem.addEventListener('click', (e) => {
         e.preventDefault()
-
-        let localData = usersData[id-1]
-        console.log(localData)
-
         modalWindow()
 
-        
+        let localData = usersData[id-1]
+
         firstName.value = localData.firstName
         lastName.value = localData.lastName
         phoneNumber.value = localData.phoneNumber
@@ -198,7 +192,21 @@ const addEdit = (id, dataItem) => {
     })
 }
 
-
+const addEditImage = (image = './img/avatar.png') => {
+    let imgLink = document.createElement('a')
+    let img = document.createElement('img')
+    img.src = image
+    imgLink.href = '#modalImg'
+    imgLink.classList.add('usermodal__link')
+    imgLink.appendChild(img)
+    
+    img.addEventListener('click', (e) => {
+        e.preventDefault()
+        modalWindow()
+        
+    })
+    return imgLink
+}
 
 // Добавление данных пользователя в таблицу
 const tableUsers = (userData) => {
@@ -208,10 +216,21 @@ const tableUsers = (userData) => {
 
     for (let key in userData) {
         let dataItem = document.createElement('td')
-        addDataTable(dataRow, dataItem, userData[key])
+        
+        if (key == 'img') {
+            let img = addEditImage(userData[key])
+            dataItem.style.display = 'flex'
+            dataItem.style.justifyContent = 'center'
+            
+            dataItem.appendChild(img)
+            dataRow.appendChild(dataItem)
+        } else if (key == 'notes') {
+            addDataTable(dataRow, dataItem, userData[key])
+            addEdit(userData.id, dataItem)
+        } else {
+            addDataTable(dataRow, dataItem, userData[key])
+        }
     } 
-    
-    addEdit(userData.id, dataRow)
     
     dataTable.appendChild(dataRow)
 }
@@ -219,10 +238,9 @@ const tableUsers = (userData) => {
 // Основное прослушивание событий на сайте
 document.addEventListener('DOMContentLoaded', () => {
     "use strict"
-    modalWindow(form)
 
     // Получение данных с помощь аякс запроса
-    requestGet('db.json', (data) => {
+    requestGet(url, (data) => {
         usersData = data.usersData
 
         for (let key in usersData) {
@@ -230,13 +248,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
+    modalWindow(form)
+
     // Отслеживание клика по форме 
     form.addEventListener('submit', (e) => {
         e.preventDefault()
         
         checkErrors()
-    })
-    form.addEventListener('click', (e) => {
-        e.preventDefault()
     })
 })  

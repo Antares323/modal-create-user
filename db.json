@@ -2,6 +2,7 @@
     "usersData": [
         {
             "id": 1,
+            "img": "./img/avatar.png",
             "firstName": "Alex",
             "lastName": "Mayba",
             "phoneNumber": "0942232567",
@@ -11,6 +12,7 @@
         },
         {
             "id": 2,
+            "img": "./img/avatar.png",
             "firstName": "Max",
             "lastName": "Saplex",
             "phoneNumber": "0992232367",
@@ -20,6 +22,7 @@
         },
         {
             "id": 3,
+            "img": "./img/avatar.png",
             "firstName": "Vitalya",
             "lastName": "Pronin",
             "phoneNumber": "0502232567",
@@ -29,6 +32,7 @@
         },
         {
             "id": 4,
+            "img": "./img/avatar.png",
             "firstName": "Ruslan",
             "lastName": "Kravec",
             "phoneNumber": "0992123567",
@@ -38,6 +42,7 @@
         },
         {
             "id": 5,
+            "img": "./img/avatar.png",
             "firstName": "Oleg",
             "lastName": "Grova",
             "phoneNumber": "0922121167",

@@ -41,7 +41,7 @@
                         <form action="#" 
                             class="usermodal__form" 
                             id="form">
-                            <div class="usermodal__form">
+                            <div class="usermodal__content">
                                 <div class="form__content">
                                     <div class="form__item">
                                         <label 
@@ -146,19 +146,73 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Avatar</th>
                         <th scope="col">FirstName</th>
                         <th scope="col">LastName</th>
-                        <th scope="col">PhoneNumber</th>
+                        <th scope="col">Phone</th>
                         <th scope="col">Email</th>
                         <th scope="col">Role</th>
                         <th scope="col">Note</th>
-                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="dataUser">
             
                 </tbody>
             </table>
+        </div>
+
+        <div id="modalImg" class="usermodal">
+            <div class="usermodal__body">
+                <div class="usermodal__content">
+                    <a 
+                        href="#" 
+                        id="usermodalClose" 
+                        class="usermodal__close close__modal">
+                        &times;
+                    </a>
+                    <div class="usermodal__img">
+                        <img 
+                            src="./img/img.png" 
+                            alt="userImg">
+                    </div>          
+                    <h3 class="usermodal__title">
+                        Edit Image
+                    </h3>
+                    
+                    <form action="#" 
+                        class="usermodal__form" 
+                        id="form">
+                        <div class="usermodal__content">
+                            <div class="form__content">
+                                <div class="form__item-img">
+                                    <label 
+                                        for="" 
+                                        class="form-label">
+                                        Image
+                                    </label>
+                                    <input 
+                                        type="file" 
+                                        name="file" 
+                                        class="form__input  form-control"
+                                        id="imgFile">
+                                </div>
+                            </div>
+                            <div class="col-12 form__footer">
+                                <button
+                                    id="usermodalClose" 
+                                    class="btn btn-secondary close__modal">
+                                    Close
+                                </button>
+                                <button 
+                                    type="submit" 
+                                    class="btn btn-primary">
+                                    Create
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <script type="module" src="./index.js"></script>
