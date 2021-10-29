@@ -13,7 +13,7 @@ const roles = document.getElementById('roles')
 const notes = document.getElementById('notes')
 
 const url = 'db.json'
-let edit = false
+let edite = false
 
 const errorMessage = {
     firstName: '',
@@ -24,6 +24,8 @@ const errorMessage = {
     notes: '',
     empty: ''
 }
+
+
 
 let usersData = []
 let id = 1
@@ -151,17 +153,22 @@ const submit = () => {
         roles: roles.value,
         notes: notes.value
     }
+    
+    // if (edite) {
 
-    if (edit) {
-
-    } else {
+    // } else {
         requestPost(url, user, () => {
-            console.log(user)
             usersData.push(user)
             tableUsers(user)
         })
-        edit = false
-    }
+    //     edite = false
+    // }
+    
+}
+
+const updateUser = (dataItem) => {
+    const userItems = dataItem.querySelectorAll('tr')
+
     
 }
 
@@ -169,6 +176,24 @@ const submit = () => {
 const addDataTable = (main, secondary, data) => {
     secondary.textContent = data
     main.appendChild(secondary)
+}
+
+const editFormListener = (id, dataItem) => {
+    dataItem.addEventListener('click', (e) => {
+        e.preventDefault()
+        edite = true
+        modalWindow(form)
+
+        updateUser(dataItem)
+        let localData = usersData[id-1]
+
+        firstName.value = localData.firstName
+        lastName.value = localData.lastName
+        phoneNumber.value = localData.phoneNumber
+        email.value = localData.email
+        roles.value = localData.roles
+        notes.value = localData.notes
+    })
 }
 
 // Добавляем слушатель на Edit
@@ -179,21 +204,7 @@ const addEdit = (id, dataItem) => {
     imgLink.textContent = 'Edit'
     dataItem.appendChild(imgLink)
 
-    dataItem.addEventListener('click', (e) => {
-        e.preventDefault()
-        modalWindow(form)
-
-        edit = true
-
-        let localData = usersData[id-1]
-
-        firstName.value = localData.firstName
-        lastName.value = localData.lastName
-        phoneNumber.value = localData.phoneNumber
-        email.value = localData.email
-        roles.value = localData.roles
-        notes.value = localData.notes
-    })
+    editFormListener(id, dataItem)
 }
 
 // Слушатель изображений/аватарок
@@ -217,10 +228,6 @@ const addEditImage = (image = './img/avatar.png', id = null) => {
 const updateImgUrl = (img) => {
     const imageUrl = imgFile.value
     img.setAttribute('src', imageUrl)
-}
-
-const updateUser = (user) => {
-    
 }
 
 // Добавление данных пользователя в таблицу
@@ -257,11 +264,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Получение данных с помощь аякс запроса
     requestGet(url, (data) => {
         usersData = data.usersData
-
         for (let key in usersData) {
             tableUsers(usersData[key])
         }
-    })
+    }) 
+    
 
     modalWindow(form)
 
