@@ -186,7 +186,7 @@ const addEdit = (id, dataItem) => {
         let localData = usersData[id-1]
         console.log(localData)
 
-        modalWindow(localData)
+        modalWindow()
 
         
         firstName.value = localData.firstName
@@ -219,7 +219,7 @@ const tableUsers = (userData) => {
 // Основное прослушивание событий на сайте
 document.addEventListener('DOMContentLoaded', () => {
     "use strict"
-    modalWindow()
+    modalWindow(form)
 
     // Получение данных с помощь аякс запроса
     requestGet('db.json', (data) => {
@@ -235,5 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault()
         
         checkErrors()
+    })
+    form.addEventListener('click', (e) => {
+        e.preventDefault()
     })
 })  
