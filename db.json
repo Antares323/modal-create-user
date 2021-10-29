@@ -49,6 +49,16 @@
             "email": "qwewqey@gmail.com",
             "roles": "Regular",
             "notes": "Just simple Regular on this site"
+        },
+        {
+            "id": 6,
+            "img": "./img/avatar.png",
+            "firstName": "Anton",
+            "lastName": "Borshch",
+            "phoneNumber": "0504532167",
+            "email": "qWaey@gmail.com",
+            "roles": "Admin",
+            "notes": "Test notesfor site"
         }
     ]
 }

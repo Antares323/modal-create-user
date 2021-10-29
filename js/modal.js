@@ -1,4 +1,4 @@
-export const modalWindow = () => {
+export const modalWindow = (form) => {
     const modalLinks = document.querySelectorAll('.usermodal__link')
     const body = document.querySelector('body')
 
@@ -12,6 +12,7 @@ export const modalWindow = () => {
                 const modalName = modal.getAttribute('href').replace('#', '')
                 const curentModal = document.getElementById(modalName)
                 modalOpen(curentModal)
+                form.reset()
                 e.preventDefault()
             })
         }
@@ -23,7 +24,6 @@ export const modalWindow = () => {
             const elem = close
             elem.addEventListener('click', (e) => {
                 modalClose(elem.closest('.usermodal'))
-                form.reset()
                 e.preventDefault()
             })
         }
@@ -57,7 +57,6 @@ export const modalWindow = () => {
 
     const bodyLock = () => {
         body.classList.add('lock')
-        
         unlock = false
         setTimeout(() => {
             unlock = true

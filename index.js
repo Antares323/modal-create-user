@@ -4,6 +4,7 @@ import { modalWindow } from "./js/modal.js"
 
 // Получаем элементы формы
 const form = document.querySelector('#form')
+const imgFile = document.querySelector('#imgFile')
 const firstName = document.getElementById('firstName')
 const lastName = document.getElementById('lastName')
 const phoneNumber = document.getElementById('phoneNumber')
@@ -12,6 +13,7 @@ const roles = document.getElementById('roles')
 const notes = document.getElementById('notes')
 
 const url = 'db.json'
+let edit = false
 
 const errorMessage = {
     firstName: '',
@@ -150,17 +152,17 @@ const submit = () => {
         notes: notes.value
     }
 
-    requestPost(url, user, () => {
-        console.log(user)
-        if (usersData.includes[id]) {
-            console.log('repeat')
-            usersData[user.id] = user
-        } else {
-            console.log('norepeat')
+    if (edit) {
+
+    } else {
+        requestPost(url, user, () => {
+            console.log(user)
             usersData.push(user)
-        }
-        tableUsers(user)
-    })
+            tableUsers(user)
+        })
+        edit = false
+    }
+    
 }
 
 // Добавление элемента в стоку таблицы
@@ -179,7 +181,9 @@ const addEdit = (id, dataItem) => {
 
     dataItem.addEventListener('click', (e) => {
         e.preventDefault()
-        modalWindow()
+        modalWindow(form)
+
+        edit = true
 
         let localData = usersData[id-1]
 
@@ -192,7 +196,8 @@ const addEdit = (id, dataItem) => {
     })
 }
 
-const addEditImage = (image = './img/avatar.png') => {
+// Слушатель изображений/аватарок
+const addEditImage = (image = './img/avatar.png', id = null) => {
     let imgLink = document.createElement('a')
     let img = document.createElement('img')
     img.src = image
@@ -202,10 +207,20 @@ const addEditImage = (image = './img/avatar.png') => {
     
     img.addEventListener('click', (e) => {
         e.preventDefault()
-        modalWindow()
-        
+        updateImgUrl(img)
+        modalWindow(form)
     })
+    
     return imgLink
+}
+
+const updateImgUrl = (img) => {
+    const imageUrl = imgFile.value
+    img.setAttribute('src', imageUrl)
+}
+
+const updateUser = (user) => {
+    
 }
 
 // Добавление данных пользователя в таблицу
@@ -218,10 +233,10 @@ const tableUsers = (userData) => {
         let dataItem = document.createElement('td')
         
         if (key == 'img') {
-            let img = addEditImage(userData[key])
+            let img = addEditImage(userData[key], id)
             dataItem.style.display = 'flex'
             dataItem.style.justifyContent = 'center'
-            
+
             dataItem.appendChild(img)
             dataRow.appendChild(dataItem)
         } else if (key == 'notes') {
