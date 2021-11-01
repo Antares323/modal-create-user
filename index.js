@@ -1,10 +1,13 @@
 import { requestGet } from "./ajax/requestGet.js"
 import { requestPost } from "./ajax/requestPost.js"
 import { modalWindow } from "./js/modal.js"
+import { handleFileSelect } from "./js/imgPrewiew.js"
 
 // Получаем элементы формы
 const form = document.querySelector('#form')
 const imgFile = document.querySelector('#imgFile')
+
+const avatar = document.getElementById('form__img-output')
 const firstName = document.getElementById('firstName')
 const lastName = document.getElementById('lastName')
 const phoneNumber = document.getElementById('phoneNumber')
@@ -25,10 +28,10 @@ const errorMessage = {
     empty: ''
 }
 
-
-
 let usersData = []
 let id = 1
+
+document.getElementById('form__img').addEventListener('change', handleFileSelect, false);
 
 // Проверка формы на валидность
 const validateElement = (element) => {
@@ -145,7 +148,7 @@ const checkErrors = () => {
 const submit = () => {
     let user = {
         id: id,
-        img: './img/avatar.png',
+        img: avatar.value,
         firstName: firstName.value,
         lastName: lastName.value,
         phoneNumber: phoneNumber.value,
@@ -187,6 +190,7 @@ const editFormListener = (id, dataItem) => {
         updateUser(dataItem)
         let localData = usersData[id-1]
 
+        avatar.value = localData.avatar
         firstName.value = localData.firstName
         lastName.value = localData.lastName
         phoneNumber.value = localData.phoneNumber
@@ -241,8 +245,6 @@ const tableUsers = (userData) => {
         
         if (key == 'img') {
             let img = addEditImage(userData[key], id)
-            dataItem.style.display = 'flex'
-            dataItem.style.justifyContent = 'center'
 
             dataItem.appendChild(img)
             dataRow.appendChild(dataItem)

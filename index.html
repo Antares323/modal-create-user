@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <title>ModalWindows</title>
@@ -41,7 +42,7 @@
                         <form action="#" 
                             class="usermodal__form" 
                             id="form">
-                            <div class="usermodal__content">
+                            <div class="usermodal__content-form">
                                 <div class="form__content">
                                     <div class="form__item">
                                         <label 
@@ -112,6 +113,19 @@
                                             <option value="Regular">Regular</option>
                                         </select>
                                     </div>
+                                    <div class="form__item">
+                                        <label 
+                                            for="roles" 
+                                            class="form-label">
+                                            Image(avatar):
+                                        </label>
+                                        <input 
+                                            id="form__img" 
+                                            type="file" 
+                                            accept=".jpg,.jpeg,.png"
+                                            class="usermodal__input form-control"
+                                        >
+                                    </div>
                                 </div>
                                 <div class="form__content">
                                     <div class="form__item">
@@ -120,6 +134,10 @@
                                             id="notes" 
                                             class="form-control" 
                                             placeholder="Note yourself"></textarea>
+                                    </div>
+                                    <div class="form__item form__item-prewiew">
+                                        <label for="avatar">Avatar prewiew:</label>
+                                        <div id="form__img-output" class="usermodal__input-img"></div>
                                     </div>
                                 </div>
                                 <div class="col-12 form__footer">
@@ -208,7 +226,7 @@
                                 <button 
                                     type="submit" 
                                     class="btn btn-primary">
-                                    Create
+                                    Edit
                                 </button>
                             </div>
                         </div>
