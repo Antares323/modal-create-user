@@ -156,6 +156,11 @@ const submit = () => {
         roles: roles.value,
         notes: notes.value
     }
+
+    var element = document.getElementById("form__img-output");
+    while (element.firstChild) {
+    element.removeChild(element.firstChild);
+    }
     
     // if (edite) {
 
